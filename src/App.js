@@ -1,15 +1,27 @@
 import React, { useState, useEffect} from 'react';
-// import logo from './logo.svg';
-import './App.css';
-import Service from './pages/serviços.js';
+import Restaurant from './pages/Restaurant';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import Nav from './components/Nav';
 
- function App() {
+function App (){
 
-  return (
-    <div className="App">
-      <Service/>
-    </div>
-  );
+return(
+  <Router>
+      <div>
+        <Nav />
+        <Switch>
+          <Route path="/restaurante" component={Restaurant} />
+          <Route path="/cozinha" component={""}/>
+        </Switch>
+      </div>
+    </Router>
+
+);
+
 }
 
 export default App;

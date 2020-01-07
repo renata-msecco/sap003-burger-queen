@@ -1,8 +1,9 @@
 import React from 'react';
 
-const button = (props) => {
+const Button = (props) => {
     return (
-        <button onClick={ props.handleClick} className = 'button'>{props.title}</button>
-    )
+        <button value ={ props.state} id={props.id} onClick= {props.handleClick} className = {props.className}>
+         {props.text}</button>
+        );
 }
-export default button;
+export default Button;
