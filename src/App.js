@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom";
 import Nav from './components/Nav';
+import './Bootstrap.css'
 
 function App (){
 
