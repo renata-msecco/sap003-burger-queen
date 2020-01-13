@@ -1,5 +1,6 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Restaurant from './pages/Restaurant';
+import Kitchen from './pages/Kitchen';
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,21 +8,23 @@ import {
 } from "react-router-dom";
 import Nav from './components/Nav';
 import './Bootstrap.css'
+import Delivery from './pages/Delivery';
 
-function App (){
+function App() {
 
-return(
-  <Router>
+  return (
+    <Router>
       <div>
         <Nav />
         <Switch>
           <Route path="/restaurante" component={Restaurant} />
-          <Route path="/cozinha" component={""}/>
+          <Route path="/cozinha" component={Kitchen} />
+          <Route path="/delivery" component={Delivery} />
         </Switch>
       </div>
     </Router>
 
-);
+  );
 
 }
 

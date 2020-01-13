@@ -1,8 +1,29 @@
-// import React from "react";
+import React, { useState, useEffect, useReducer } from 'react';
+import Client from "../Crud/Client"
+import Mesa from "../components/Mesa"
 
-// function Kitchen(props) {
-//     return (
-//       <div>{props.title}</div>
-//     );
-//   }
-//     export default Kitchen;
+const Kitchen = () => {
+
+    const [mesas, setMesas] = useState([]);
+
+    useEffect(() => {
+
+        Client.get((mesas) => {
+            setMesas(mesas)
+        })
+
+    }, [])
+
+    return (
+
+        <div className="container-fluid">
+            <div className="mb-3"></div>
+            <div className="row">
+                {mesas.map(mesa => <Mesa mesa={mesa}></Mesa>)}
+            </div>
+        </div>
+
+    )
+}
+
+export default Kitchen;
