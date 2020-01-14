@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect} from 'react';
 import Client from "../Crud/Client"
 import Mesa from "../components/Mesa"
 

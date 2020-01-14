@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
-//import './App.css';
+import React, { useState, useEffect} from 'react';
 import firebase from '../components/Firebase/firebase';
 import Button from '../components/button';
 import MenuCard from '../components/Card.js';
@@ -30,9 +29,7 @@ function Service() {
   const [table, setTable] = useState('');
   const [client, setClient] = useState('');
   const [totalPrice, setTotalPrice] = useState(0);
-  // const [options, setOptions] = useState([]);
-
-
+  
   useEffect(() => {
     firebase.collection('menu').get()
       .then(function (querySnapshot) {
@@ -87,14 +84,14 @@ function Service() {
         return product;
       }
     })
-    // product.selectedExtra = extra
+ 
     setProductSelect(newProductSelect)
-    // updateTotal()
+  
   }
 
   const selectOption = (product, option) => {
     product.selectedOption = option
-    // updateTotal()
+ 
   }
 
   const increaseProduct = (product) => {
@@ -106,7 +103,7 @@ function Service() {
       product.contador += 1;
       setProductSelect([...productSelect])
     }
-    // updateTotal()
+ 
   }
 
   function decreaseProduct(product) {
@@ -121,50 +118,34 @@ function Service() {
       product.contador--
       setProductSelect([...productSelect])
     }
-    // updateTotal()
+  
   }
 
   const deleteItem = (item) => {
     const indexItem = (productSelect.indexOf(item));
     productSelect.splice(indexItem, 1);
     setProductSelect([...productSelect]);
-    // updateTotal()
+
   }
 
-  // const updateTotal = () => {
-
-  //   setTotalPrice(total)
-  // }
-
   const total = productSelect.reduce((acc, item) => acc + getTotalProductPrice(item), 0);
-  // console.log("aa", total)
-
+ 
   return (
 
     <>
-      {/* <div class="row d-flex justify-content-center"><h2>Menu</h2></div>
       
-      <div className="btn-group" role="group" aria-label="Basic example">
-     */}
-      {/* <div className={css(styles.btnContainer)}> */}
-      {/* <button type="button" className="btn btn-primary btn-lg btn-block" onClick={() => filtroMenu("breakfast")}>CAFÉ DA MANHÃ</button>
-        <button type="button" className="secondary btn-lg btn-block" onClick={() => filtroMenu("lunch")}>LANCHES</button> */}
-      {/* <Button className={css(styles.btnMenu)} text={"CAFÉ DA MANHÃ"} handleClick={() => filtroMenu("breakfast")} /> */}
-      {/* <Button className={css(styles.btnMenu)} text={"LANCHES"} handleClick={() => filtroMenu("lunch")} /> */}
-
-      {/* </div> */}
-      <div className={css(styles.divInputs)}>
+      <div className={css(styles.btnGroup)} role="group" aria-label="Basic example">
+        <Button className={css(styles.btnMenu1)} text={"CAFÉ DA MANHÃ"} handleClick={() => filtroMenu("breakfast")} /> 
+      <Button className={css(styles.btnMenu2)} text={"LANCHES"} handleClick={() => filtroMenu("lunch")} />      
+      
+       </div>
+       <div className={css(styles.divInputs)}>
         <Input class={css(styles.infoInput)} value={client} state={client} type={'text'} placeholder={'Nome'} handleChange={e => setClient(e.currentTarget.value)} />
         <Input class={css(styles.infoInput)} value={table} state={table} type={'number'} placeholder={'Mesa'} handleChange={e => setTable(e.currentTarget.value)} />
-      </div>
+      </div> 
 
       <div className={css(styles.divMenu)} >
-
-        <div className="container-fluid">
-          <div className="row">
-            <button type="button" className="btn btn-dark btn-lg btn-block" onClick={() => filtroMenu("breakfast")}>CAFÉ DA MANHÃ</button>
-            <button type="button" className="btn btn- dark btn-lg btn-block" onClick={() => filtroMenu("lunch")}>LANCHES</button>
-
+       
             <MenuCard
               menuItens={menuFiltrado === "breakfast" ? menuFiltrado : menuFiltrado}
               handleClick={increaseProduct}
@@ -172,9 +153,6 @@ function Service() {
               price={productSelect.price} key={productSelect.id}
               className={css(styles.cardMenu)} />
           </div>
-        </div>
-
-      </div>
 
       <div class="row d-flex justify-content-center"><h2>Resumo do pedido</h2></div>
       <table className="table table-hover">
@@ -260,17 +238,24 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   infoInput: {
-    margin: "1%"
+    margin: "1%",
+    border:'borde-radius',
   },
 
-  btnMenu: {
+  btnMenu1: {
     width: '50%',
     height: '20%',
-    background: '#D96704',
+    background: '#6c757d',
     margin: '1%',
-    // paddingTop: '1em',
-    //borderRadius:'%',
+  
   },
+  btnMenu2: {
+    width: '50%',
+    height: '20%',
+    background: '#6c757d',
+    margin: '1%',
+  },
+
   cardMenu: {
     margin: '10px',
     width: '200px',
@@ -300,4 +285,9 @@ const styles = StyleSheet.create({
   btnContainer: {
     display: 'flex',
   },
+
+  btnGroup: {
+    display: "flex",
+    flexDirection: "row",
+  }
 })

@@ -1,5 +1,4 @@
 import firebase from '../components/Firebase/firebase';
-import React, { useState, useContext, useEffect, useCallback, useMemo } from 'react';
 
 const Delivery = {
 

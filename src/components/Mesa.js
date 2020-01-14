@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import Delivery from '../Crud/Delivery';
 
 function msToTime(duration) {
@@ -7,17 +7,12 @@ function msToTime(duration) {
         hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
 
     hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    minutes = (minutes < 10) ? `0${minutes}` : minutes;
 
     return hours + "h" + minutes + "min";
 }
 
 const Mesa = (args) => {
-
-    useEffect(() => {
-
-    }, []);
-
     let concluido = false;
 
     const definirComoPronto = () => {
@@ -30,7 +25,8 @@ const Mesa = (args) => {
         date = msToTime(diferenca)
     }
     else {
-        date = args.mesa.date ? new Date(args.mesa.date.seconds * 1000).getHours() + ":" + new Date(args.mesa.date.seconds * 1000).getMinutes() : '';
+        const minutes = (new Date(args.mesa.date.seconds * 1000).getMinutes() < 10 ? '0' : '') + new Date(args.mesa.date.seconds * 1000).getMinutes();
+        date = args.mesa.date ? new Date(args.mesa.date.seconds * 1000).getHours() + ":" + minutes : '';
     }
 
     if (!concluido) return (
@@ -54,7 +50,7 @@ const Mesa = (args) => {
                             )
                         })}
 
-                        {!args.mesa.conclusionDate ? <><hr /><button className="btn btn-dark" onClick={definirComoPronto}>pronto</button></> : ''}
+                        {!args.mesa.conclusionDate ? <><hr /><button className="btn btn-dark" onClick={definirComoPronto}>Preparando</button></> : ''}
                     </div>
                 </div>
             </div>

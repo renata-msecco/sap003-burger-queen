@@ -1,6 +1,4 @@
 import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
-//import '../components/card.css';
 
 const MenuCard = (props) => {
     return (
@@ -20,14 +18,3 @@ const MenuCard = (props) => {
     )
 }
 export default MenuCard;
-
-const styles = StyleSheet.create({
-    subdiv: {
-        width: '100%',
-        display: 'flex',
-        flexWrap: 'wrap'
-    }
-})
-
-
-
