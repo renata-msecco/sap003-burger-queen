@@ -1,9 +1,10 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import firebase from '../components/Firebase/firebase';
 import Button from '../components/button';
 import MenuCard from '../components/Card.js';
 import { StyleSheet, css } from 'aphrodite';
-import Input from '../components/Firebase/input';
+import Input from '../input';
+import alertify from 'alertifyjs';
 
 function currencyFormatted(valor) {
   valor = valor.toString().replace(/\D/g, "");
@@ -15,9 +16,8 @@ function currencyFormatted(valor) {
 
 function getTotalProductPrice(product) {
   let total = 0;
-  total += product.price * product.contador
-  if (product.selectedExtra) total += product.selectedExtra.price * product.contador;
-  console.log(total)
+  total += product.price * product.contador;
+  if (product.extraPrice) total += 1;
   return total;
 }
 
@@ -28,37 +28,44 @@ function Service() {
   const [productSelect, setProductSelect] = useState([]);
   const [table, setTable] = useState('');
   const [client, setClient] = useState('');
-  const [totalPrice, setTotalPrice] = useState(0);
-  
+
+
   useEffect(() => {
     firebase.collection('menu').get()
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           setMenu((current) => [...current, doc.data()]);
-          setMenuFiltrado((current) => [...current, doc.data()]);
+          // setMenuFiltrado((current) => [...current, doc.data()]);
         });
       })
   }, [])
 
   function sendOrder(e) {
     e.preventDefault()
+    if (client && table != "" && productSelect.length !== 0) {
+      firebase.collection('client')
+        .add({
+          client,
+          table: parseInt(table),
+          productSelect,
+          date: new Date(),
+          status: 'Preparando',
+        })
 
-    firebase.collection('client')
-      .add({
-        client,
-        table: parseInt(table),
-        productSelect,
-        totalPrice: totalPrice,
-        date: new Date(),
-      })
-
-      .then(() => {
-        setTable('')
-        setClient('')
-        setProductSelect([])
-        setTotalPrice('')
-      })
-  }
+        .then(() => {
+          alertify.success('pedido enviado para cozinha');
+          setTable('')
+          setClient('')
+          setProductSelect([])
+        })
+    } else if (!client) {
+      alertify.error('Para continuar informe nome do cliente');
+    } else if (!table) {
+      alertify.error('Para continuar informe número da mesa');
+    } else if (productSelect.length === 0) {
+      alertify.error('Para continuar informe itens do pedido');
+    }
+  };
 
   const filtroMenu = (tipoMenu) => {
     if (tipoMenu === "breakfast") {
@@ -74,36 +81,46 @@ function Service() {
   }
 
   const selectExtra = (product, extra) => {
-    const newProductSelect = productSelect.map((selectProduct) => {
-      if (product.name === selectProduct.name) {
-        return {
-          ...product,
-          selectedExtra: extra
-        };
-      } else {
-        return product;
-      }
-    })
- 
-    setProductSelect(newProductSelect)
-  
+    product.selectedExtra = extra;
+    product.extraPrice = 1
+
+    // const newProductSelect = productSelect.map((selectProduct) => {
+    //   if (product.name === selectProduct.name) {
+    //     return {
+    //       ...product,
+    //       selectedExtra: extra
+    //     };
+    //   } else {
+    //     return product;
+    //   }
+    // })
+
+    setProductSelect([...productSelect])
+
   }
 
   const selectOption = (product, option) => {
     product.selectedOption = option
- 
+
   }
 
   const increaseProduct = (product) => {
-    const productIndex = productSelect.findIndex(e => e.name === product.name)
-    if (productIndex === -1) {
-      product.contador = 1;
+    if (product.name.includes("Hambúrguer")) {
+      product.contador = 1
       setProductSelect([...productSelect, product])
     } else {
-      product.contador += 1;
-      setProductSelect([...productSelect])
+      const productIndex = productSelect.findIndex(e => e.name === product.name)
+      if (productIndex === -1) {
+        product.contador = 1;
+        setProductSelect([...productSelect, product])
+      } else {
+        product.contador += 1;
+        setProductSelect([...productSelect])
+      }
+
+
     }
- 
+
   }
 
   function decreaseProduct(product) {
@@ -118,43 +135,43 @@ function Service() {
       product.contador--
       setProductSelect([...productSelect])
     }
-  
+
   }
 
   const deleteItem = (item) => {
-    const indexItem = (productSelect.indexOf(item));
-    productSelect.splice(indexItem, 1);
-    setProductSelect([...productSelect]);
+    const filterDelete = productSelect.filter(elem => elem !== item)
+    setProductSelect([...filterDelete]);
 
   }
 
   const total = productSelect.reduce((acc, item) => acc + getTotalProductPrice(item), 0);
- 
+  console.log(productSelect)
+
   return (
 
     <>
-      
+
       <div className={css(styles.btnGroup)} role="group" aria-label="Basic example">
-        <Button className={css(styles.btnMenu1)} text={"CAFÉ DA MANHÃ"} handleClick={() => filtroMenu("breakfast")} /> 
-      <Button className={css(styles.btnMenu2)} text={"LANCHES"} handleClick={() => filtroMenu("lunch")} />      
-      
-       </div>
-       <div className={css(styles.divInputs)}>
+        <Button className={css(styles.btnMenu1)} text={"CAFÉ DA MANHÃ"} handleClick={() => filtroMenu("breakfast")} />
+        <Button className={css(styles.btnMenu2)} text={"LANCHES"} handleClick={() => filtroMenu("lunch")} />
+
+      </div>
+      <div className={css(styles.divInputs)}>
         <Input class={css(styles.infoInput)} value={client} state={client} type={'text'} placeholder={'Nome'} handleChange={e => setClient(e.currentTarget.value)} />
         <Input class={css(styles.infoInput)} value={table} state={table} type={'number'} placeholder={'Mesa'} handleChange={e => setTable(e.currentTarget.value)} />
-      </div> 
+      </div>
 
       <div className={css(styles.divMenu)} >
-       
-            <MenuCard
-              menuItens={menuFiltrado === "breakfast" ? menuFiltrado : menuFiltrado}
-              handleClick={increaseProduct}
-              name={productSelect.name}
-              price={productSelect.price} key={productSelect.id}
-              className={css(styles.cardMenu)} />
-          </div>
 
-      <div class="row d-flex justify-content-center"><h2>Resumo do pedido</h2></div>
+        <MenuCard
+          menuItens={menuFiltrado === "breakfast" ? menuFiltrado : menuFiltrado}
+          handleClick={increaseProduct}
+          name={productSelect.name}
+          price={productSelect.price} key={productSelect.id}
+          className={css(styles.cardMenu)} />
+      </div>
+
+      <div class="row d-flex justify-content-center"><h2>Pedido</h2></div>
       <table className="table table-hover">
         <thead>
           <tr>
@@ -192,7 +209,8 @@ function Service() {
                       </label>
                     </div>
                   )
-                }) : ''}</td>
+                }) : ''}
+                </td>
                 <td>{product.contador}</td>
                 <td className="text-nowrap">{currencyFormatted(product.price)}</td>
                 <td>
@@ -239,7 +257,7 @@ const styles = StyleSheet.create({
   },
   infoInput: {
     margin: "1%",
-    border:'borde-radius',
+    border: 'borde-radius',
   },
 
   btnMenu1: {
@@ -247,7 +265,7 @@ const styles = StyleSheet.create({
     height: '20%',
     background: '#6c757d',
     margin: '1%',
-  
+
   },
   btnMenu2: {
     width: '50%',
