@@ -17,7 +17,7 @@ function currencyFormatted(valor) {
 function getTotalProductPrice(product) {
   let total = 0;
   total += product.price * product.contador;
-  if (product.extraPrice) total += 1;
+  if (product.extraPrice) total += product.extraPrice;
   return total;
 }
 
@@ -42,7 +42,7 @@ function Service() {
 
   function sendOrder(e) {
     e.preventDefault()
-    if (client && table != "" && productSelect.length !== 0) {
+    if (client && table !== "" && productSelect.length !== 0) {
       firebase.collection('client')
         .add({
           client,
@@ -83,20 +83,7 @@ function Service() {
   const selectExtra = (product, extra) => {
     product.selectedExtra = extra;
     product.extraPrice = 1
-
-    // const newProductSelect = productSelect.map((selectProduct) => {
-    //   if (product.name === selectProduct.name) {
-    //     return {
-    //       ...product,
-    //       selectedExtra: extra
-    //     };
-    //   } else {
-    //     return product;
-    //   }
-    // })
-
     setProductSelect([...productSelect])
-
   }
 
   const selectOption = (product, option) => {
@@ -106,13 +93,15 @@ function Service() {
 
   const increaseProduct = (product) => {
     if (product.name.includes("Hambúrguer")) {
-      product.contador = 1
-      setProductSelect([...productSelect, product])
+      const include = { ...product, contador: 1 }
+
+      setProductSelect([...productSelect, include])
     } else {
       const productIndex = productSelect.findIndex(e => e.name === product.name)
       if (productIndex === -1) {
         product.contador = 1;
-        setProductSelect([...productSelect, product])
+        const lower = { ...product, contador: 1 }
+        setProductSelect([...productSelect, lower])
       } else {
         product.contador += 1;
         setProductSelect([...productSelect])
@@ -141,6 +130,30 @@ function Service() {
   const deleteItem = (item) => {
     const filterDelete = productSelect.filter(elem => elem !== item)
     setProductSelect([...filterDelete]);
+
+  }
+
+  const teste = (product) => {
+    product.contador += 1;
+    product.extraPrice += 1;
+    setProductSelect([...productSelect])
+    console.log(product)
+
+
+  }
+
+  const teste2 = (product) => {
+    if (product.contador === 1) {
+      deleteItem(product)
+    } else {
+      product.contador -= 1;
+      product.extraPrice -= 1;
+
+      setProductSelect([...productSelect])
+      console.log(product)
+    }
+
+
 
   }
 
@@ -215,8 +228,8 @@ function Service() {
                 <td className="text-nowrap">{currencyFormatted(product.price)}</td>
                 <td>
                   <div className="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" className="btn btn-success" onClick={() => increaseProduct(product)}>+</button>
-                    <button type="button" className="btn btn-danger" onClick={() => decreaseProduct(product)}>-</button>
+                    <button type="button" className="btn btn-success" onClick={() => product.name.includes("Hambúrguer") ? teste(product) : increaseProduct(product)}>+</button>
+                    <button type="button" className="btn btn-danger" onClick={() => product.name.includes("Hambúrguer") ? teste2(product) : decreaseProduct(product)}>-</button>
                     <button type="button" className="btn btn-dark" onClick={(e) => { e.preventDefault(); deleteItem(product); }}>Del</button>
                   </div>
                 </td>

@@ -22,7 +22,7 @@ function Nav() {
                 <a className="nav-link" href="/cozinha">Cozinha</a>
               </li>
               <li className="nav-item">
-                {/* <a className="nav-link" href="/delivery">Delivery</a> */}
+                <a className="nav-link" href="/delivery">Delivery</a>
               </li>
 
             </ul>

@@ -50,7 +50,7 @@ const Mesa = (args) => {
                             )
                         })}
 
-                        {!args.mesa.conclusionDate ? <><hr /><button className="btn btn-dark" onClick={definirComoPronto}>Preparando</button></> : ''}
+                        {!args.mesa.conclusionDate ? <><hr /><button className="btn btn-dark" onClick={definirComoPronto}>Pronto</button></> : ''}
                     </div>
                 </div>
             </div>
