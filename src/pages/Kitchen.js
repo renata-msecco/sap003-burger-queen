@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Client from "../Crud/Client"
 import Mesa from "../components/Mesa"
 
@@ -19,11 +19,13 @@ const Kitchen = () => {
         <div className="container-fluid">
             <div className="mb-3"></div>
             <div className="row">
-                {mesas.map(mesa => <Mesa mesa={mesa}></Mesa>)}
+                {
+                    mesas.map(mesa => {
+                        return <Mesa mesa={mesa}></Mesa>
+                    })
+                }
             </div>
         </div>
-
     )
 }
-
 export default Kitchen;

@@ -35,7 +35,6 @@ function Service() {
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           setMenu((current) => [...current, doc.data()]);
-          // setMenuFiltrado((current) => [...current, doc.data()]);
         });
       })
   }, [])
@@ -67,7 +66,7 @@ function Service() {
     }
   };
 
-  const filtroMenu = (tipoMenu) => {
+  const menuFilter = (tipoMenu) => {
     if (tipoMenu === "breakfast") {
       const menuFiltrado = menu.filter(element => element.breakfast === true)
       setMenuFiltrado(menuFiltrado);
@@ -76,7 +75,6 @@ function Service() {
     else if (tipoMenu === "lunch") {
       const menuFiltrado = menu.filter(element => element.lunch === true || element.beverages === true || element["side dish"] === true)
       setMenuFiltrado(menuFiltrado);
-
     }
   }
 
@@ -88,7 +86,6 @@ function Service() {
 
   const selectOption = (product, option) => {
     product.selectedOption = option
-
   }
 
   const increaseProduct = (product) => {
@@ -106,10 +103,7 @@ function Service() {
         product.contador += 1;
         setProductSelect([...productSelect])
       }
-
-
     }
-
   }
 
   function decreaseProduct(product) {
@@ -124,55 +118,53 @@ function Service() {
       product.contador--
       setProductSelect([...productSelect])
     }
-
   }
 
   const deleteItem = (item) => {
     const filterDelete = productSelect.filter(elem => elem !== item)
     setProductSelect([...filterDelete]);
-
   }
 
-  const teste = (product) => {
+  const chooseExtra = (product) => {
     product.contador += 1;
     product.extraPrice += 1;
     setProductSelect([...productSelect])
-    console.log(product)
-
-
   }
 
-  const teste2 = (product) => {
+  const addExtra = (product) => {
     if (product.contador === 1) {
       deleteItem(product)
     } else {
       product.contador -= 1;
       product.extraPrice -= 1;
-
       setProductSelect([...productSelect])
-      console.log(product)
     }
-
-
-
   }
 
   const total = productSelect.reduce((acc, item) => acc + getTotalProductPrice(item), 0);
-  console.log(productSelect)
-
-  return (
+   return (
 
     <>
 
-      <div className={css(styles.btnGroup)} role="group" aria-label="Basic example">
-        <Button className={css(styles.btnMenu1)} text={"CAFÉ DA MANHÃ"} handleClick={() => filtroMenu("breakfast")} />
-        <Button className={css(styles.btnMenu2)} text={"LANCHES"} handleClick={() => filtroMenu("lunch")} />
+      <div className="container-fluid pt-3">
+        <div className="row">
+          <fieldset className="form-group col-6">
+            <Button className="btn btn-dark form-control" text={"CAFÉ DA MANHÃ"} handleClick={() => menuFilter("breakfast")} />
+          </fieldset>
+          <fieldset className="form-group col-6">
+            <Button className="btn btn-dark form-control" text={"LANCHES"} handleClick={() => menuFilter("lunch")} />
+          </fieldset>
+        </div>
+        <div className="row">
+          <fieldset className="form-group col-6">
+            <Input class="form-control" value={client} state={client} type={'text'} placeholder={'Nome'} handleChange={e => setClient(e.currentTarget.value)} />
+          </fieldset>
+          <fieldset className="form-group col-6">
+            <Input class="form-control" value={table} state={table} type={'number'} placeholder={'Mesa'} handleChange={e => setTable(e.currentTarget.value)} />
+          </fieldset>
+        </div>
+      </div>
 
-      </div>
-      <div className={css(styles.divInputs)}>
-        <Input class={css(styles.infoInput)} value={client} state={client} type={'text'} placeholder={'Nome'} handleChange={e => setClient(e.currentTarget.value)} />
-        <Input class={css(styles.infoInput)} value={table} state={table} type={'number'} placeholder={'Mesa'} handleChange={e => setTable(e.currentTarget.value)} />
-      </div>
 
       <div className={css(styles.divMenu)} >
 
@@ -228,16 +220,15 @@ function Service() {
                 <td className="text-nowrap">{currencyFormatted(product.price)}</td>
                 <td>
                   <div className="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" className="btn btn-success" onClick={() => product.name.includes("Hambúrguer") ? teste(product) : increaseProduct(product)}>+</button>
-                    <button type="button" className="btn btn-danger" onClick={() => product.name.includes("Hambúrguer") ? teste2(product) : decreaseProduct(product)}>-</button>
+                    <button type="button" className="btn btn-success" onClick={() => product.name.includes("Hambúrguer") ? chooseExtra(product) : increaseProduct(product)}>+</button>
+                    <button type="button" className="btn btn-danger" onClick={() => product.name.includes("Hambúrguer") ? addExtra(product) : decreaseProduct(product)}>-</button>
                     <button type="button" className="btn btn-dark" onClick={(e) => { e.preventDefault(); deleteItem(product); }}>Del</button>
                   </div>
                 </td>
               </tr>
             )
           })
-
-          }
+        }
 
           <tr>
             <td>Total:</td>
@@ -247,22 +238,19 @@ function Service() {
             <td></td>
             <td>
               <button className="btn btn-success" onClick={sendOrder}>Enviar</button>
-
             </td>
           </tr>
-
         </tbody>
       </table>
-
     </>
   );
 }
 
 
-
 export default Service;
 
 const styles = StyleSheet.create({
+
   divInputs: {
     display: "flex",
     flexDirection: "row",
@@ -308,7 +296,6 @@ const styles = StyleSheet.create({
     alignContent: 'space-around',
     display: 'flex',
     flexWrap: 'wrap',
-    //flexDirection:'row',
     width: '100%',
     height: '20%',
   },

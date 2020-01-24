@@ -7,7 +7,10 @@ const Delivery = {
         firebase.collection('delivery').get().then(function (results) {
             let mesas = []
             results.forEach(function (mesa) {
-                mesas.push(mesa.data())
+                mesas.push({
+                    id: mesa.id,
+                    ...mesa.data()
+                })
             });
             callback(mesas)
         })
@@ -16,16 +19,29 @@ const Delivery = {
 
     add: (mesa, callback) => {
 
-        mesa.conclusionDate = new Date()
+        let delivery = { ...mesa }
+
+        delivery.conclusionDate = new Date()
+
+        delivery.status = 'Pronto'
+
+        delete delivery.key
+        delete delivery.id
 
         firebase
             .collection('delivery')
-            .add(mesa)
-            .then(() => { })
+            .add(delivery)
+            .then(callback)
 
     },
 
-    del: (callback) => { },
+    del: (mesa, callback) => {
+        firebase
+            .collection('delivery')
+            .doc(mesa.id)
+            .delete()
+            .then(callback)
+    },
 
 }
 

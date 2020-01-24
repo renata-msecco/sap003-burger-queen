@@ -1,5 +1,4 @@
 import firebase from '../components/Firebase/firebase';
-import React from 'react';
 
 const Client = {
 
@@ -9,7 +8,7 @@ const Client = {
             let mesas = []
             results.forEach(function (mesa) {
                 let retorno = mesa.data()
-                retorno.key = mesa
+                retorno.id = mesa.id
                 mesas.push(retorno)
             });
             callback(mesas)
@@ -17,9 +16,11 @@ const Client = {
 
     },
 
-    add: (callback) => { },
-
-    del: (callback) => { },
+    del: (mesa, callback) => {
+        firebase.collection('client').doc(mesa.id).delete().then((retorno) => {
+            if (callback) callback()
+        })
+    },
 
 }
 
