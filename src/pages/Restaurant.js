@@ -157,7 +157,7 @@ function Service() {
         </div>
         <div className="row">
           <fieldset className="form-group col-6">
-            <Input class="form-control" value={client} state={client} type={'text'} placeholder={'Nome'} handleChange={e => setClient(e.currentTarget.value)} />
+            <Input class="form-control" value={client} state={client} type={'text'} placeholder={'Nome do Cliente'} handleChange={e => setClient(e.currentTarget.value)} />
           </fieldset>
           <fieldset className="form-group col-6">
             <Input class="form-control" value={table} state={table} type={'number'} placeholder={'Mesa'} handleChange={e => setTable(e.currentTarget.value)} />

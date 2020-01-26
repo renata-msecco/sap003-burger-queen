@@ -1,6 +1,5 @@
 import React from 'react';
 import Logo from "../image/logobq.png";
-import { StyleSheet, css } from 'aphrodite';
 
 function Nav() {
   return (
@@ -33,8 +32,3 @@ function Nav() {
 }
 
 export default Nav;
-
-const styles = StyleSheet.create({
-
-
-})
