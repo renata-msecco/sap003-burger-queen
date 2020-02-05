@@ -165,8 +165,7 @@ function Service() {
         </div>
       </div>
 
-
-      <div className={css(styles.divMenu)} >
+     <div className={css(styles.divMenu)} >
 
         <MenuCard
           menuItens={menuFiltrado === "breakfast" ? menuFiltrado : menuFiltrado}

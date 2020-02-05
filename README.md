@@ -20,15 +20,15 @@ O projeto foi desenvolvido de forma individual, exigiu a construção da aplica�
 
 A seleção do menu será realizada pelo garçom através dos botões café da manhã ou lanches, ao tocar nos botões o menu é aberto. Para o envio do pedido é necessario o prenchimento do nome e mesa do cliente.
 
-![telainicio](src/images/telainicio.jpg)
+![telainicio](src/image/telainicio.jpg)
 
 
 A seleção do pedido é realizada através da escolha dos itens, apresentados no card de cada produto, as quantidades serão ajustadas pelos botões + e -, podendo o pedido ser deletato no botão del. Após a seleção dos itens o pedido é enviado através do botão enviar.
-![telapedido](src/images/telapedido.jpg)
+![telapedido](src/image/telapedido.jpg)
 
 
 Ao clicar na nav cozinha o usuário poderá visualizar os pedidos em preparação, bem como seu horário de entrada na cozinha, ao clicar no botão pronto o pedido é redirecionado para área de Delivery, sinalizando ao Garçom que o pedido está pronto para ser entregue ao cliente.
-![telacozinha](src/images/telacozinha.jpg)
+![telacozinha](src/image/telacozinha.jpg)
 
 Ao clicar no menu delivery o usuário encontrará a lista de pedidos prontos, bem como seu tempo de preparo, sendo assim conta com um botão entregue que apaga esse pedido do banco de dados e o retira da lista do delivery.
-![teladelivery](src/images/teladelivery.jpg) 
+![teladelivery](src/image/teladelivery.jpg) 

@@ -15,7 +15,7 @@ function Nav() {
         <div className="menu">
           <ul>
             <li className="">
-              <a className="" href="/restaurante">Restaurante <span className="sr-only">(current)</span></a>
+              <a className="mx-auto" href="/restaurante">Restaurante <span className="sr-only">(current)</span></a>
             </li>
             <li className="">
               <a className="" href="/cozinha">Cozinha</a>
