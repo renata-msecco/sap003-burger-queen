@@ -183,7 +183,7 @@ function Service() {
             <th>Opções</th>
             <th>Extras</th>
             <th>Qtd</th>
-            <th>Preço</th>
+            <th>Preço Unt.</th>
             <th>Ações</th>
           </tr>
         </thead>

@@ -4,7 +4,7 @@ import Logo from "../image/logobq.png";
 function Nav() {
   return (
 
-    <nav className="navbar navbar-expand-sm navbar- mx-auto style= width: 30px  bg-dark">
+    <nav className="navbar navbar-expand-sm navbar-  style= width: 30px  bg-dark">
       <div class="container">
         <div className="logo">
           <a href="/restaurante">
@@ -15,10 +15,10 @@ function Nav() {
         <div className="menu">
           <ul>
             <li className="">
-              <a className="mx-auto" href="/restaurante">Restaurante <span className="sr-only">(current)</span></a>
+              <a className="mr-sm-2" href="/restaurante">Restaurante <span className="sr-only">(current)</span></a>
             </li>
             <li className="">
-              <a className="" href="/cozinha">Cozinha</a>
+              <a className="mr-sm-2" href="/cozinha">Cozinha</a>
             </li>
             <li className="">
               <a className="" href="/delivery">Delivery</a>
