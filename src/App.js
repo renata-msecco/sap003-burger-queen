@@ -16,6 +16,7 @@ function App() {
     <Router>
       <div>
         <Nav />
+        <Restaurant/>
         <Switch>
           <Route path="/restaurante" component={Restaurant} />
           <Route path="/cozinha" component={Kitchen} />
